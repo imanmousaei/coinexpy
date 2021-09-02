@@ -1,29 +1,26 @@
-from distutils.core import setup
+from setuptools import setup
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+version = '0.4'
 
 setup(
     name='coinexpy',
     packages=['coinexpy'],
-    version='0.2',
+    version=version,
     license='MIT',
     description='Python wrapper for Coinex APIs',
     long_description_content_type='text/markdown',
-    long_description=long_description,
+    long_description=open('README.md', 'rt').read(),
     author='Iman Mousaei',
     author_email='imanmousaei1379@gmail.com',
     url='https://github.com/imanmousaei/coinexpy',
-    download_url='https://github.com/imanmousaei/coinexpy/archive/refs/tags/v0.2-alpha.tar.gz',
+    download_url=f'https://github.com/imanmousaei/coinexpy/archive/refs/tags/v{version}.tar.gz',
     keywords=['coinex', 'api', 'wrapper', 'trade', 'crypto', 'bitcoin'],
     install_requires=[
-        'hashlib',
-        'json',
         'urllib3'
     ],
     classifiers=[
         # "3 - Alpha", "4 - Beta" or "5 - Production/Stable"
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
 
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',

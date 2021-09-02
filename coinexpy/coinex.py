@@ -1,4 +1,4 @@
-from requestclient import RequestClient
+from .requestclient import RequestClient
 
 # todo : function input doc, input validation
 

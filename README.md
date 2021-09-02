@@ -15,9 +15,10 @@ pip install coinexpy
 # Example
 You can create API key and get your access_id & secret_key [here](https://www.coinex.com/apikey)
 ```python
-import coinexpy
+from coinexpy.coinex import Coinex
 
-coinex = coinexpy.Coinex('<your_access_id>', '<your_secret_key>')
+
+coinex = Coinex('<your_access_id>', '<your_secret_key>')
 
 balance = coinex.get_balance()
 usdt_balance = coinex.get_available('USDT')
@@ -29,3 +30,4 @@ coinex.limit_sell('BTCUSDT', 0.01, 50000)
 coinex.market_buy('BTCUSDT', 100)  # buy 100$ worth of bitcoin with market price
 coinex.market_sell('BTCUSDT', 0.01)  # sell 0.01BTC
 ```
+good luck

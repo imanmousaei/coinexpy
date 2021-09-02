@@ -6,15 +6,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name='coinexpy',
     packages=['coinexpy'],
-    version='0.1',
+    version='0.2',
     license='MIT',
     description='Python wrapper for Coinex APIs',
+    long_description_content_type='text/markdown',
     long_description=long_description,
-    long_description_content_type="text/markdown",
     author='Iman Mousaei',
     author_email='imanmousaei1379@gmail.com',
     url='https://github.com/imanmousaei/coinexpy',
-    download_url='https://github.com/imanmousaei/coinexpy/archive/refs/tags/v0.1-alpha.tar.gz',
+    download_url='https://github.com/imanmousaei/coinexpy/archive/refs/tags/v0.2-alpha.tar.gz',
     keywords=['coinex', 'api', 'wrapper', 'trade', 'crypto', 'bitcoin'],
     install_requires=[
         'hashlib',

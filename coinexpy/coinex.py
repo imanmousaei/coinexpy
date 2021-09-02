@@ -1,5 +1,6 @@
 from .requestclient import RequestClient
 
+
 # todo : function input doc, input validation
 
 
@@ -20,10 +21,13 @@ class Coinex:
         self.client = RequestClient(access_id, secret_key)
 
     def get_balance(self):
+        """
+        :return: dict containing all pf your account
+        """
         response = self.client.request('GET', '/v1/balance/')
         return response
 
-    def get_available(self, coin='USDT'):
+    def get_available(self, coin: str = 'USDT'):
         """
         :param coin: coin to get balance for
         :return: available balance for the given coin
@@ -36,7 +40,11 @@ class Coinex:
             # raise ValueError(f'You dont have any {coin} in your account')
             return 0
 
-    def get_last_price(self, market):
+    def get_last_price(self, market: str):
+        """
+        get last price traded with this market
+        :param market: market to get price
+        """
         params = {
             'market': market,
             'last_id': 0,
@@ -50,21 +58,37 @@ class Coinex:
         return float(response['data'][0]['price'])
 
     # todo : test
-    def order_pending(self, market_type):
+    def pending_orders(self, market: str, page, limit):
+        """
+        Acquire Unexecuted Order List
+        :param market: market to get it's orders e.g. BTCUSDT
+        :param page: page number(start from 1)
+        :param limit: Amount per page(1-100)
+        :return: list
+        """
         params = {
-            'market': market_type
+            'market': market,
+            'page': page,
+            'limit': limit
         }
         response = self.client.request(
             'GET',
             '/v1/order/pending',
             params=params
         )
-        print(response)
+        return response
 
     # todo : test
-    def order_finished(self, market_type, page, limit):
+    def finished_orders(self, market, page, limit):
+        """
+        Acquire Executed Order List
+        :param market: market to get it's orders e.g. BTCUSDT
+        :param page: page number(start from 1)
+        :param limit: Amount per page(1-100)
+        :return: list
+        """
         params = {
-            'market': market_type,
+            'market': market,
             'page': page,
             'limit': limit
         }
@@ -75,7 +99,7 @@ class Coinex:
         )
         return response
 
-    def limit_sell(self, market, amount, price):
+    def limit_sell(self, market: str, amount, price):
         """
         :param market: e.g. 'BTCUSDT
         :param amount: amount in source currency
@@ -84,17 +108,23 @@ class Coinex:
         """
         return self.limit_order(market, amount, price, 'sell')
 
-    def limit_buy(self, market, amount, price):
+    def limit_buy(self, market: str, amount, price):
         """
         :param market: e.g. 'BTCUSDT
         :param amount: amount in destination currency
         :param price: price to put limit order
-        :return: response of the sell request
+        :return: response of the buy request
         """
         return self.limit_order(market, amount, price, 'buy')
 
     # todo : test
-    def limit_order(self, market, amount, price, type):
+    def limit_order(self, market: str, amount, price, type: str):
+        """
+        :param market: e.g. 'BTCUSDT
+        :param amount: amount to buy/sell
+        :param price: price to order
+        :param type: 'buy' or 'sell'
+        """
         market = market.upper()
         amount = round(amount, 8)
 
@@ -115,16 +145,30 @@ class Coinex:
         )
         return response
 
-    def market_sell(self, market, amount):
+    def market_sell(self, market: str, amount):
+        """
+        :param market: e.g. 'BTCUSDT
+        :param amount: amount in source currency
+        :return: response of the sell request
+        """
         return self.market_order(market, amount, 'sell')
 
-    def market_buy(self, market, amount):
+    def market_buy(self, market: str, amount):
+        """
+        :param market: e.g. 'BTCUSDT
+        :param amount: amount in source currency
+        :return: response of the buy request
+        """
         return self.market_order(market, amount, 'buy')
 
-    def market_order(self, market, amount, type):
+    def market_order(self, market: str, amount, type: str):
+        """
+        :param market: e.g. 'BTCUSDT
+        :param amount: amount to buy/sell
+        :param type: 'buy' or 'sell'
+        """
         market = market.upper()
         amount = round(amount, 8)
-        print(amount)
 
         if type != 'buy' and type != 'sell':
             raise ValueError('type should either be "buy" or "sell" ')
@@ -142,8 +186,12 @@ class Coinex:
         )
         return response
 
-    def sell_coin(self, coin, price=None):
-        """ sell all of the `coin` you have to USDT in limit price (if you dont input price, it'll use market price) """
+    def sell_coin(self, coin: str, price=None):
+        """
+        sell all of the `coin` you have to USDT
+        :param coin: coin to sell
+        :param price: price to sell the coin in(if not given, use market price)
+        """
         available = self.get_available(coin)
         if price is None:
             self.market_sell(f'{coin}USDT', available)
@@ -151,22 +199,20 @@ class Coinex:
             self.limit_sell(f'{coin}USDT', available, price)
 
     # todo : test
-    def cancel_order(self, id, market):
+    def cancel_order(self, id, market: str):
+        """
+        cancels the unexecuted order
+        :param id: order id
+        :param market: e.g. BTCUDST
+        """
         data = {
             "id": id,
             "market": market,
         }
-        print(market)
 
         response = self.client.request(
             'DELETE',
             '/v1/order/pending',
             params=data,
         )
-        return response.data
-
-# sample
-# order_data = complex_json.loads(put_limit_order())['data']
-# id = order_data['id']
-# market = order_data['market']
-# cancel_order(id, market)
+        return response

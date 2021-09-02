@@ -52,6 +52,5 @@ class RequestClient(object):
             encoded_data = complex_json.dumps(json).encode('utf-8')
             result = http.request(method, url, body=encoded_data, headers=self.headers)
 
-        # print(str(result.data.decode('utf-8')))
         result_dict = complex_json.loads(str(result.data.decode('utf-8')))
         return result_dict

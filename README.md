@@ -24,10 +24,12 @@ balance = coinex.get_balance()
 usdt_balance = coinex.get_available('USDT')
 btc_price = coinex.get_last_price('BTCUSDT')
 
-coinex.limit_buy('BTCUSDT', 100, 50000) # place a limit buy order on bitcoin on 50000$ with amount=100$
-coinex.limit_sell('BTCUSDT', 0.01, 50000)
-
 coinex.market_buy('BTCUSDT', 100)  # buy 100$ worth of bitcoin with market price
 coinex.market_sell('BTCUSDT', 0.01)  # sell 0.01BTC
+
+coinex.limit_buy('BTCUSDT', 100, 50000) # place a limit buy order on bitcoin on 50000$ with amount=100$
+result = coinex.limit_sell('BTCUSDT', 0.01, 50000)
+
+coinex.cancel_order(result['id'], result['market'])
 ```
 good luck

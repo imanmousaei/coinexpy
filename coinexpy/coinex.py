@@ -7,7 +7,7 @@ class Coinex:
     """
     methods:
     - get_balance()
-    - get_available('USDT'):
+    - get_available('USDT')
     - limit_buy('BTCUSDT', 0.01, 50000)
     - limit_sell('BTCUSDT', 0.01, 50000)
     - market_buy('BTCUSDT', 0.01)

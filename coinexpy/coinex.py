@@ -1,19 +1,23 @@
 from .requestclient import RequestClient
 
 
-# todo : function input doc, input validation
-
-
 class Coinex:
     """
     methods:
     - get_balance()
     - get_available('USDT')
+    - get_last_price('BTCUSDT')
+
     - limit_buy('BTCUSDT', 0.01, 50000)
     - limit_sell('BTCUSDT', 0.01, 50000)
     - market_buy('BTCUSDT', 0.01)
     - market_sell('BTCUSDT', 0.01)
-    - get_last_price('BTCUSDT')
+
+    - pending_orders('BTCUSDT', 1, 10)
+    - finished_orders('BTCUSDT', 1, 10)
+
+    - sell_coin('BTC')
+    - cancel_order
 
     """
 
@@ -186,6 +190,7 @@ class Coinex:
         )
         return response
 
+    # todo : test
     def sell_coin(self, coin: str, price=None):
         """
         sell all of the `coin` you have to USDT

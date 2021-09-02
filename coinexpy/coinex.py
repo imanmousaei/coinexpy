@@ -61,7 +61,6 @@ class Coinex:
         )
         return float(response['data'][0]['price'])
 
-    # todo : test
     def pending_orders(self, market: str, page, limit):
         """
         Acquire Unexecuted Order List
@@ -82,7 +81,6 @@ class Coinex:
         )
         return response
 
-    # todo : test
     def finished_orders(self, market, page, limit):
         """
         Acquire Executed Order List
@@ -115,21 +113,21 @@ class Coinex:
     def limit_buy(self, market: str, amount, price):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount in destination currency
+        :param amount: amount in source currency
         :param price: price to put limit order
         :return: response of the buy request
         """
         return self.limit_order(market, amount, price, 'buy')
 
-    # todo : test
     def limit_order(self, market: str, amount, price, type: str):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount to buy/sell
+        :param amount: amount to buy/sell in source currency
         :param price: price to order
         :param type: 'buy' or 'sell'
         """
         market = market.upper()
+        amount = amount / price
         amount = round(amount, 8)
 
         if type != 'buy' and type != 'sell':
@@ -168,7 +166,7 @@ class Coinex:
     def market_order(self, market: str, amount, type: str):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount to buy/sell
+        :param amount: amount to buy/sell in source currency
         :param type: 'buy' or 'sell'
         """
         market = market.upper()
@@ -190,7 +188,6 @@ class Coinex:
         )
         return response
 
-    # todo : test
     def sell_coin(self, coin: str, price=None):
         """
         sell all of the `coin` you have to USDT
@@ -199,16 +196,16 @@ class Coinex:
         """
         available = self.get_available(coin)
         if price is None:
-            self.market_sell(f'{coin}USDT', available)
+            result = self.market_sell(f'{coin}USDT', available)
         else:
-            self.limit_sell(f'{coin}USDT', available, price)
+            result = self.limit_sell(f'{coin}USDT', available, price)
+        return result
 
-    # todo : test
-    def cancel_order(self, id, market: str):
+    def cancel_order(self, market: str, id):
         """
         cancels the unexecuted order
-        :param id: order id
         :param market: e.g. BTCUDST
+        :param id: order id
         """
         data = {
             "id": id,

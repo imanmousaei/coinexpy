@@ -25,10 +25,29 @@ usdt_balance = coinex.get_available('USDT')
 btc_price = coinex.get_last_price('BTCUSDT')
 
 coinex.market_buy('BTCUSDT', 100)  # buy 100$ worth of bitcoin with market price
-coinex.market_sell('BTCUSDT', 0.01)  # sell 0.01BTC
+coinex.market_sell('BTCUSDT', 100)  # sell 100$ worth of BTC
 
 coinex.limit_buy('BTCUSDT', 100, 50000) # place a limit buy order on bitcoin with amount=100$
-result = coinex.limit_sell('BTCUSDT', 0.01, 50000)
+result = coinex.limit_sell('BTCUSDT', 100, 50000)
 
 coinex.cancel_order(result['id'], result['market'])
+```
+
+## Amount
+Field `amount` should be calculated with the 2nd currency in pair e.g. in BTCUSDT you should calculate amount in USDT
+
+# Donate
+For additional support you can always donate.
+
+My TRX address:
+```
+TKjj4ds7pyRKrLDPa71aCQ9y73kFQPKjX2
+```
+BCH:
+```
+qrxfzgu5prerumfmzm20jajkp6nvje092yx8n5g0k6
+```
+USDT TRC20:
+```
+TKjj4ds7pyRKrLDPa71aCQ9y73kFQPKjX2
 ```

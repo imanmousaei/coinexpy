@@ -35,3 +35,19 @@ coinex.cancel_order(result['id'], result['market'])
 
 ## Amount
 Field `amount` should be calculated with the 2nd currency in pair e.g. in BTCUSDT you should calculate amount in USDT
+
+# Donate
+For additional support you can always donate.
+
+My TRX address:
+```
+TKjj4ds7pyRKrLDPa71aCQ9y73kFQPKjX2
+```
+BCH:
+```
+qrxfzgu5prerumfmzm20jajkp6nvje092yx8n5g0k6
+```
+USDT TRC20:
+```
+TKjj4ds7pyRKrLDPa71aCQ9y73kFQPKjX2
+```

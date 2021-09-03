@@ -104,7 +104,7 @@ class Coinex:
     def limit_sell(self, market: str, amount, price):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount in source currency
+        :param amount: amount in 2nd currency
         :param price: price to put limit order
         :return: response of the sell request
         """
@@ -113,7 +113,7 @@ class Coinex:
     def limit_buy(self, market: str, amount, price):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount in source currency
+        :param amount: amount in 2nd currency
         :param price: price to put limit order
         :return: response of the buy request
         """
@@ -122,7 +122,7 @@ class Coinex:
     def limit_order(self, market: str, amount, price, type: str):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount to buy/sell in source currency
+        :param amount: amount to buy/sell in 2nd currency
         :param price: price to order
         :param type: 'buy' or 'sell'
         """
@@ -150,15 +150,17 @@ class Coinex:
     def market_sell(self, market: str, amount):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount in source currency
+        :param amount: amount in 2nd currency
         :return: response of the sell request
         """
+        price = self.get_last_price(market)
+        amount = amount / price
         return self.market_order(market, amount, 'sell')
 
     def market_buy(self, market: str, amount):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount in source currency
+        :param amount: amount in 2nd currency
         :return: response of the buy request
         """
         return self.market_order(market, amount, 'buy')
@@ -166,7 +168,7 @@ class Coinex:
     def market_order(self, market: str, amount, type: str):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount to buy/sell in source currency
+        :param amount: amount to buy/sell in 2nd currency
         :param type: 'buy' or 'sell'
         """
         market = market.upper()

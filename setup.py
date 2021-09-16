@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '0.5.1-alpha'
+version = '0.5.1'
 
 setup(
     name='coinexpy',

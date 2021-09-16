@@ -119,16 +119,19 @@ class Coinex:
         """
         return self.limit_order(market, amount, price, 'buy')
 
-    def limit_order(self, market: str, amount, price, type: str):
+    def limit_order(self, market: str, amount, price, type: str, amount_in=2):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount to buy/sell in 2nd currency
+        :param amount: amount to buy/sell
         :param price: price to order
         :param type: 'buy' or 'sell'
+        :param amount_in: if =2 amount is calculated in 2nd currency in pair. else, in 1st
         """
-        market = market.upper()
-        amount = amount / price
-        amount = round(amount, 8)
+
+        if amount_in == 2:
+            market = market.upper()
+            amount = amount / price
+            amount = round(amount, 8)
 
         if type != 'buy' and type != 'sell':
             raise ValueError('type should either be "buy" or "sell" ')
@@ -165,14 +168,20 @@ class Coinex:
         """
         return self.market_order(market, amount, 'buy')
 
-    def market_order(self, market: str, amount, type: str):
+    def market_order(self, market: str, amount, type: str, amount_in=2):
         """
         :param market: e.g. 'BTCUSDT
-        :param amount: amount to buy/sell in 2nd currency
+        :param amount: amount to buy/sell
         :param type: 'buy' or 'sell'
+        :param amount_in: if =1 amount is calculated in 1st currency in pair. else, in 2nd
         """
         market = market.upper()
         amount = round(amount, 8)
+
+        if amount_in == 1:
+            price = self.get_last_price(market)
+            amount = amount * price
+            amount = round(amount, 8)
 
         if type != 'buy' and type != 'sell':
             raise ValueError('type should either be "buy" or "sell" ')
@@ -197,10 +206,11 @@ class Coinex:
         :param price: price to sell the coin in(if not given, use market price)
         """
         available = self.get_available(coin)
+        market = f'{coin}USDT'
         if price is None:
-            result = self.market_sell(f'{coin}USDT', available)
+            result = self.market_order(market, available, 'sell')
         else:
-            result = self.limit_sell(f'{coin}USDT', available, price)
+            result = self.limit_order(market, available, price, 'sell', 1)
         return result
 
     def cancel_order(self, market: str, id):

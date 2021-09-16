@@ -51,3 +51,6 @@ USDT TRC20:
 ```
 TKjj4ds7pyRKrLDPa71aCQ9y73kFQPKjX2
 ```
+
+# Contact
+If you need another function or found a bug in existing ones submit a new issue [Here](https://github.com/imanmousaei/coinexpy/issues/new).

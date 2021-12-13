@@ -1,4 +1,5 @@
 from .requestclient import RequestClient
+from . import market_apis as apis
 
 
 class Coinex:
@@ -28,7 +29,7 @@ class Coinex:
         """
         :return: dict containing all pf your account
         """
-        response = self.client.request('GET', '/v1/balance/')
+        response = self.client.request('GET', apis.get_balance)
         return response
 
     def get_available(self, coin: str = 'USDT'):
@@ -56,7 +57,7 @@ class Coinex:
         }
         response = self.client.request(
             'GET',
-            '/v1/market/deals',
+            apis.get_market_deals,
             params=params
         )
         return float(response['data'][0]['price'])
@@ -76,7 +77,7 @@ class Coinex:
         }
         response = self.client.request(
             'GET',
-            '/v1/order/pending',
+            apis.acquire_unexecuted_order_list,
             params=params
         )
         return response
@@ -96,7 +97,7 @@ class Coinex:
         }
         response = self.client.request(
             'GET',
-            '/v1/order/finished',
+            apis.acquire_executed_order_list,
             params=params
         )
         return response
@@ -145,7 +146,7 @@ class Coinex:
 
         response = self.client.request(
             'POST',
-            '/v1/order/limit',
+            apis.place_limit_order,
             json=data,
         )
         return response
@@ -194,7 +195,7 @@ class Coinex:
 
         response = self.client.request(
             'POST',
-            '/v1/order/market',
+            apis.place_market_order,
             json=data,
         )
         return response
@@ -226,7 +227,7 @@ class Coinex:
 
         response = self.client.request(
             'DELETE',
-            '/v1/order/pending',
+            apis.cancel_order,
             params=data,
         )
         return response
